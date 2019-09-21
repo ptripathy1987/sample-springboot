@@ -1,0 +1,65 @@
+directive @yearFormatter on FIELD_DEFINITION
+
+interface Payment {
+    id:ID
+    vehicleId:Int
+    dealerId:Int
+    price:Int
+    date:String
+}
+type CardPayment implements Payment{
+    id:ID
+    vehicleId:Int
+    dealerId:Int
+    price:Int
+    date:String
+    cardNumber:String
+    cardType:String
+    dealer:Dealer
+    vehicle:Vehicle
+}
+type ChequePayment implements Payment{
+    id:ID
+    vehicleId:Int
+    dealerId:Int
+    price:Int
+    date:String
+    bankIFSC:String
+    chequeNumber:String
+    dealer:Dealer
+    vehicle:Vehicle
+}
+type Vehicle {
+    id:ID
+    name:String
+    manufacturer:String
+    year:String @yearFormatter
+    fuelType:FuelType
+    transmission:String
+    dealers:[Dealer]
+}
+type Dealer {
+    id:ID
+    name:String
+    phone:String
+    location:String
+    address:String
+    vehicles:[Vehicle]
+}
+union allPayment = ChequePayment | CardPayment
+type Query {
+    vehiclesByManufacturer(name:String!):[Vehicle]
+    getVehiclesByYearList(year:Int!):[Vehicle]
+    dealersList:[Dealer]
+    allCardPayments:[CardPayment]
+    allChequePayments:[ChequePayment]
+    allPayments:[allPayment]
+    vehiclesByManufacturerAndFuelType(name:String, fuelType:String):[Vehicle]
+}
+
+enum FuelType {
+    PETROL
+    DIESEL
+    HYBRID
+    CNG
+}
