@@ -63,3 +63,15 @@ enum FuelType {
     HYBRID
     CNG
 }
+input VehicleInput{
+    id:ID
+    name:String
+    manufacturer:String
+    year:String
+    fuelType:FuelType
+    transmission:String
+}
+type Mutation {
+    deleteVehicleById(id:ID!):String
+    addVehicle(vehicle:VehicleInput):Vehicle
+}

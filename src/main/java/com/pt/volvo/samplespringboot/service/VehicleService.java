@@ -42,4 +42,13 @@ public class VehicleService {
         return vehicleList.stream().filter(vehicle -> id==vehicle.getId())
                 .findFirst().orElse(null);
     }
+
+    public String deleteById(Long id) {
+        boolean result = vehicleList.removeIf(vehicle -> vehicle.getId() == id);
+        if (result) {
+            return id +" deleted successfully.";
+        } else {
+            return "No Id available";
+        }
+    }
 }
